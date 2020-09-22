@@ -1,0 +1,406 @@
+#packopt name "FlashConfig"
+
+	APPAUTOTIME="3000000"
+	APPINFO=""
+	APPNAME="myflashair"
+	APPNETWORKKEY="12345678"
+	APPSSID="flashair"
+	BRGNETWORKKEY="12345678"
+	BRGSSID="myhomelan"
+	CID="!! PLUSE INPUT YOUR FLASHAIR DATA !!"
+	CIPATH="/DCIM/100__TSB/FA000001.JPG"
+	DELCGI=""
+	LUA_RUN_SCRIPT="/bootscript.lua"
+	LUA_SD_EVENT="/writescript.lua"
+	MASTERCODE=""
+	PRODUCT="FlashAir"
+	STA_RETRY_CT="0"
+	TIMEZONE="36"
+	UPDIR="/"
+	VENDOR="TOSHIBA"
+	VERSION=""
+	IP_Address="192.168.1.100"
+	Subnet_Mask="255.255.255.0"
+	Default_Gateway="192.168.1.1"
+	DNS_Server1="8.8.8.8"
+	DNS_Server2="192.168.1.1"
+	Proxy_Name="127.0.0.1"
+	Port_Number="8080"
+	APPMODE=4
+	DNSMODE=1
+	IFMODE=0
+	LOCK=1
+	NOISE_CANCEL=0
+	UPLOAD=0
+	WEBDAV=0
+	DHCP_Enabled=1
+	Proxy_Enabled=0
+
+	cls
+	gosub *makeWindow
+	stop
+
+*Load
+	exist "FlashAirConfig.txt"
+	if(strsize == -1) : dialog "File not found : FlashAirConfig.txt",1 : return
+	
+	TMP_DATA =""
+	notesel TMP_DATA
+	noteload "FlashAirConfig.txt"
+	
+	PTR=0
+	noteget APPAUTOTIME		,PTR : PTR++
+	noteget APPINFO			,PTR : PTR++
+	noteget APPNAME			,PTR : PTR++
+	noteget APPNETWORKKEY	,PTR : PTR++
+	noteget APPSSID			,PTR : PTR++
+	noteget BRGNETWORKKEY	,PTR : PTR++
+	noteget BRGSSID			,PTR : PTR++
+	noteget CID				,PTR : PTR++
+	noteget CIPATH			,PTR : PTR++
+	noteget DELCGI			,PTR : PTR++
+	noteget LUA_RUN_SCRIPT	,PTR : PTR++
+	noteget LUA_SD_EVENT	,PTR : PTR++
+	noteget MASTERCODE		,PTR : PTR++
+	noteget PRODUCT			,PTR : PTR++
+	noteget STA_RETRY_CT	,PTR : PTR++
+	noteget TIMEZONE		,PTR : PTR++
+	noteget UPDIR			,PTR : PTR++
+	noteget VENDOR			,PTR : PTR++
+	noteget VERSION			,PTR : PTR++
+	noteget IP_Address		,PTR : PTR++
+	noteget Subnet_Mask		,PTR : PTR++
+	noteget Default_Gateway	,PTR : PTR++
+	noteget DNS_Server1		,PTR : PTR++
+	noteget DNS_Server2		,PTR : PTR++
+	noteget Proxy_Name		,PTR : PTR++
+	noteget Port_Number		,PTR : PTR++
+	noteget APPMODE			,PTR : PTR++
+	noteget DNSMODE			,PTR : PTR++
+	noteget IFMODE			,PTR : PTR++
+	noteget LOCK			,PTR : PTR++
+	noteget NOISE_CANCEL	,PTR : PTR++
+	noteget UPLOAD			,PTR : PTR++
+	noteget WEBDAV			,PTR : PTR++
+	noteget DHCP_Enabled	,PTR : PTR++
+	noteget Proxy_Enabled	,PTR : PTR++
+
+	APPMODE=int(APPMODE)
+	DNSMODE=int(DNSMODE)
+	IFMODE=int(IFMODE)
+	LOCK=int(LOCK)
+	NOISE_CANCEL=int(NOISE_CANCEL)
+	UPLOAD=int(UPLOAD)
+	WEBDAV=int(WEBDAV)
+	DHCP_Enabled=int(DHCP_Enabled)
+	Proxy_Enabled=int(Proxy_Enabled)
+
+	cls
+	gosub *makeWindow
+	return
+
+*Save
+	notesel TMP_DATA
+	
+	TMP_DATA = ""
+	
+	PTR=0
+	noteadd APPAUTOTIME		,PTR : PTR++
+	noteadd APPINFO			,PTR : PTR++
+	noteadd APPNAME			,PTR : PTR++
+	noteadd APPNETWORKKEY	,PTR : PTR++
+	noteadd APPSSID			,PTR : PTR++
+	noteadd BRGNETWORKKEY	,PTR : PTR++
+	noteadd BRGSSID			,PTR : PTR++
+	noteadd CID				,PTR : PTR++
+	noteadd CIPATH			,PTR : PTR++
+	noteadd DELCGI			,PTR : PTR++
+	noteadd LUA_RUN_SCRIPT	,PTR : PTR++
+	noteadd LUA_SD_EVENT	,PTR : PTR++
+	noteadd MASTERCODE		,PTR : PTR++
+	noteadd PRODUCT			,PTR : PTR++
+	noteadd STA_RETRY_CT	,PTR : PTR++
+	noteadd TIMEZONE		,PTR : PTR++
+	noteadd UPDIR			,PTR : PTR++
+	noteadd VENDOR			,PTR : PTR++
+	noteadd VERSION			,PTR : PTR++
+	noteadd IP_Address		,PTR : PTR++
+	noteadd Subnet_Mask		,PTR : PTR++
+	noteadd Default_Gateway	,PTR : PTR++
+	noteadd DNS_Server1		,PTR : PTR++
+	noteadd DNS_Server2		,PTR : PTR++
+	noteadd Proxy_Name		,PTR : PTR++
+	noteadd Port_Number		,PTR : PTR++
+	noteadd ""+APPMODE		,PTR : PTR++
+	noteadd ""+DNSMODE		,PTR : PTR++
+	noteadd ""+IFMODE		,PTR : PTR++
+	noteadd ""+LOCK			,PTR : PTR++
+	noteadd ""+NOISE_CANCEL	,PTR : PTR++
+	noteadd ""+UPLOAD		,PTR : PTR++
+	noteadd ""+WEBDAV		,PTR : PTR++
+	noteadd ""+DHCP_Enabled	,PTR : PTR++
+	noteadd ""+Proxy_Enabled,PTR : PTR++
+
+	notesave "FlashAirConfig.txt"
+	dialog "Saved : FlashAirConfig.txt"
+	return
+
+*Output
+	CONFIG_DATA=""
+	notesel CONFIG_DATA
+	
+	noteadd "APPAUTOTIME="+APPAUTOTIME
+	if((int(APPAUTOTIME) < 60000) && (int(APPAUTOTIME) != 0)) : dialog "ERROR:APPAUTOTIME Invalid",1 : return
+	
+	noteadd "APPINFO="+APPINFO
+	noteadd "APPNAME="+APPNAME
+
+	noteadd "APPMODE="+APPMODE
+	if(APPMODE == 1 || APPMODE > 6 || APPMODE < 0) : dialog "ERROR:APPMODE Invalid",1 : return
+	
+	noteadd "APPSSID="+APPSSID
+	noteadd "APPNETWORKKEY="+APPNETWORKKEY
+	
+	noteadd "BRGSSID="+BRGSSID
+	noteadd "BRGNETWORKKEY="+BRGNETWORKKEY
+	
+	if(CID != "!! PLUSE INPUT YOUR FLASHAIR DATA !!") : noteadd "CID="+CID : else : noteadd "CID="
+	
+	noteadd "CIPATH="+CIPATH
+	noteadd "DELCGI="+DELCGI
+	noteadd "DNSMODE="+DNSMODE
+	noteadd "LUA_RUN_SCRIPT="+LUA_RUN_SCRIPT
+	noteadd "LUA_SD_EVENT="+LUA_SD_EVENT
+	noteadd "MASTERCODE="+MASTERCODE
+	noteadd "PRODUCT="+PRODUCT
+	noteadd "STA_RETRY_CT="+STA_RETRY_CT
+	noteadd "TIMEZONE="+TIMEZONE
+	if((int(TIMEZONE) < -48) || (int(TIMEZONE) > 54)) : dialog "ERROR:TIMEZONE Invalid",1 : return
+	
+	noteadd "UPDIR="+UPDIR
+	noteadd "VENDOR="+VENDOR
+	noteadd "VERSION="+VERSION
+	noteadd "IFMODE="+IFMODE
+	noteadd "LOCK="+LOCK
+	
+	if(NOISE_CANCEL=1) : noteadd "NOISE_CANCEL=2" : else : noteadd "NOISE_CANCEL=0"
+	noteadd "UPLOAD="+UPLOAD
+	noteadd "WEBDAV="+WEBDAV
+	
+	noteadd ""
+	if(DHCP_Enabled=1) : noteadd "DHCP_Enabled=YES" : else : noteadd "DHCP_Enabled=NO"
+	noteadd "IP_Address="+IP_Address
+	noteadd "Subnet_Mask="+Subnet_Mask
+	noteadd "Default_Gateway="+Default_Gateway
+	noteadd "Preferred_DNS_Server="+DNS_Server1
+	noteadd "Alternate_DNS_Server="+DNS_Server2
+	
+	noteadd ""
+	if(Proxy_Enabled=1) : noteadd "Proxy_Enabled=YES" : else : noteadd "Proxy_Enabled=NO"
+	noteadd "Proxy_Server_Name="+Proxy_Name
+	noteadd "Port_Number="+Port_Number
+	
+	notesave "CONFIG"
+	dialog "Wrote : CONFIG"
+
+	return
+
+*makeWindow
+	screen 0,760,420,0
+	cls 1
+	title "FlashAir Unofficial Configurator"
+	objmode 2
+
+	font "ÇlÇr ÉSÉVÉbÉN"
+	pos 100,20
+	input APPAUTOTIME,260,20
+
+	objsize 100,20
+	pos 0,20
+	button gosub "APPAUTOTIME",*Button1
+
+	button gosub "APPINFO",*Button1
+
+	button gosub "APPMODE",*Button1
+
+	pos ,100
+	button gosub "APPSSID",*Button1
+
+	pos ,80
+	button gosub "APPNAME",*Button1
+
+	pos ,120
+	button gosub "APPNETWORKKEY",*Button1
+
+	pos ,180
+	button gosub "CID",*Button1
+
+	pos ,160
+	button gosub "BRGNETWORKKEY",*Button1
+
+	pos 100,40
+	input APPINFO,260
+
+	pos 0,140
+	button gosub "BRGSSID",*Button1
+
+	pos ,200
+	button gosub "CIPATH",*Button1
+
+	button gosub "DELCGI",*Button1
+
+	button gosub "DNSMODE",*Button1
+
+	button gosub "IFMODE",*Button1
+
+	button gosub "LOCK",*Button1
+
+	button gosub "LUA_RUN_SCRIPT",*Button1
+
+	button gosub "LUA_SD_EVENT",*Button1
+
+	button gosub "MASTERCODE",*Button1
+
+	button gosub "NOISE_CANCEL",*Button1
+
+	pos 380,20
+	button gosub "PRODUCT",*Button1
+
+	button gosub "STA_RETRY_CT",*Button1
+
+	button gosub "TIMEZONE",*Button1
+
+	button gosub "UPDIR",*Button1
+
+	button gosub "UPLOAD",*Button1
+
+	button gosub "VENDOR",*Button1
+
+	button gosub "VERSION",*Button1
+
+	button gosub "WEBDAV",*Button1
+
+	button gosub "DHCP_Enabled",*Button1
+
+	button gosub "IP_Address",*Button1
+
+	button gosub "Subnet_Mask",*Button1
+
+	button gosub "Default_Gateway",*Button1
+
+	button gosub "DNS_Server1",*Button1
+
+	button gosub "DNS_Server2",*Button1
+
+	button gosub "Proxy_Enabled",*Button1
+
+	button gosub "Proxy_Name",*Button1
+
+	pos 100,100
+	input APPSSID,260
+
+	pos 380,340
+	button gosub "Port_Number",*Button1
+
+	pos 100,80
+	input APPNAME,260
+
+	pos ,120
+	input APPNETWORKKEY,260
+
+	pos ,160
+	input BRGNETWORKKEY,260
+
+	pos ,140
+	input BRGSSID,260
+
+	pos ,180
+	input CID,260
+
+	input CIPATH,260
+
+	input DELCGI,260
+
+	pos ,300
+	input LUA_RUN_SCRIPT,260
+
+	input LUA_SD_EVENT,260
+
+	input MASTERCODE,260
+
+	pos 480,20
+	input PRODUCT,260
+
+	input STA_RETRY_CT,260
+
+	input TIMEZONE,260
+
+	input UPDIR,260
+
+	pos ,120
+	input VENDOR,260
+
+	input VERSION,260
+
+	pos ,200
+	input IP_Address,260
+
+	input Subnet_Mask,260
+
+	input Default_Gateway,260
+
+	input DNS_Server1,260
+
+	input DNS_Server2,260
+
+	pos ,320
+	input Proxy_Name,260
+
+	input Port_Number,260
+
+	objsize 80,40
+	pos 600,380
+	button gosub "Save",*Save
+
+	pos 520,380
+	button gosub "Load",*Load
+
+	objsize 260,20
+	pos 100,60
+	combox APPMODE,,"0:AP Mode(Protect Switch)\n1:!! DO NOT SET THIS !!\n2:STA Mode(Protect Switch)\n3:Bridge Mode(Protect Switch)\n4:AP Mode(Auto Start)\n5:STA Mode(Auto Start)\n6:Bridge Mode(Auto Start)\n"
+
+	pos ,240
+	combox DNSMODE,,"0:Normal\n1:DNS Spoofing"
+
+	combox IFMODE,,"0:Disable\n1:Enable"
+
+	combox LOCK,,"0:Initialize\n1:Normal"
+
+	pos ,360
+	combox NOISE_CANCEL,,"0:Disable\n2:NoiseCancelling(not recommended)"
+
+	pos 480,100
+	combox UPLOAD,,"0:Disable\n1:Enable"
+
+	pos ,160
+	combox WEBDAV,,"0:Disable\n1:Enable(Read only)\n2:Enalbe(Read/Write)"
+
+	combox DHCP_Enabled,,"NO\nYES"
+
+	pos ,300
+	combox Proxy_Enabled,,"NO\nYES"
+
+	font "ÇlÇr ÉSÉVÉbÉN",16
+	pos 2,2
+	mes "This tool is extremely dangerous. Please use at your own risk.(é©å»ê”îCÇ≈Ç≤óòópÇ≠ÇæÇ≥Ç¢)"
+
+	font "ÇlÇr ÉSÉVÉbÉN"
+	objsize 80,40
+	pos 680,380
+	button gosub "Output",*Output
+
+	return
+
+*Button1
+	dialog "ñ¢é¿ëï"
+	return
